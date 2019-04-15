@@ -1,7 +1,23 @@
-import the necessary packages
+#import the necessary packages
 import numpy as np
 import cv2
 
+def find_distance (box_width, box_height):
+    width_ratio = 12; #example ratio of known width to known distance  
+    height_ratio = 12; #example ratio of known height to known distance 
+
+    calc_width_distance = box_width*width_ratio;#finding distance using the box width 
+    calc_height_distance = box_height*height_ratio;#finding the distance using the box height 
+    avg_distance = (calc_width_distance + calc_height_distance)/2;#averaging the two calculated distances 
+    return avg_distance; 
+
+
+def get_bounding_box (file_name):
+
+
+
+
+##############################################################################################333
 def find_marker(image):
   # convert the image to grayscale, blur it, and detect edges
   gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
@@ -38,9 +54,9 @@ def distance_to_camera(knownWidth, focalLength, perWidth):
    for imagePath in IMAGE_PATHS:
    # load the image, find the marker in the image, then compute the
    # distance to the marker from the camera
-   image = cv2.imread(imagePath)
-   marker = find_marker(image)
-   inches = distance_to_camera(KNOWN_WIDTH, focalLength, marker[1][0])
+     image = cv2.imread(imagePath)
+     marker = find_marker(image)
+     inches = distance_to_camera(KNOWN_WIDTH, focalLength, marker[1][0])
    
    # draw a bounding box around the image and display it
    box = np.int0(cv2.cv.BoxPoints(marker))
