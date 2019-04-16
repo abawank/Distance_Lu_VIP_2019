@@ -12,21 +12,38 @@ def find_distance (box_width, box_height):
     return avg_distance; 
 
 
-def get_bounding_box (file_name):
-    with open(filename,"r") as fin:
+def get_bounding_box (file_name_in, file_name_out):
+    fout = open(file_name_out,"w");
+    with open(file_name_in,"r") as fin:
         for line in fin:
+            if(line == '\n'):
+                continue;
             #read width
-            characteristics = line.split(",");
-            width = float(characteristics[2]);
-            height = float(characteristics[3]);
-            #read height 
-            #read object id and frame number 
+            #arr = [0,1,2,3,4,5,6,7,8,9];
+            chars = [0]*10;
+            #for item in line.split(",");
+            chars = line.split(",",9);
+            #print(chars);
+            print(chars[4]);
+            print(chars[5]);
+
+            width = float(chars[4]);
+            height = float(chars[5]);
+            frame = int(chars[0]);
+            id_track = int(chars[1]);
+            scale_factor = 3; # example scale factor for changing pixel height to actual height 
+            width *= scale_factor; 
+            height *= scale_factor;
+            print(width);
+            print(height);
             distance = find_distance(abs(float(width)),abs(float(height)));
-            #write object id, frame number and distance into file 
+            #writing into file: frame, id, distance
+            fout.write("%d,%d,%lf\n" %(frame, id_track,distance));
             print(distance);
     fin.close();
+    fout.close();
 
-
+'''
 
 ##############################################################################################333
 def find_marker(image):
@@ -76,3 +93,5 @@ def distance_to_camera(knownWidth, focalLength, perWidth):
            2.0, (0, 255, 0), 3)
    cv2.imshow("image", image)
    cv2.waitKey(0)
+   '''
+
