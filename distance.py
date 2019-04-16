@@ -13,7 +13,18 @@ def find_distance (box_width, box_height):
 
 
 def get_bounding_box (file_name):
-
+    with open(filename,"r") as fin:
+        for line in fin:
+            #read width
+            characteristics = line.split(",");
+            width = float(characteristics[2]);
+            height = float(characteristics[3]);
+            #read height 
+            #read object id and frame number 
+            distance = find_distance(abs(float(width)),abs(float(height)));
+            #write object id, frame number and distance into file 
+            print(distance);
+    fin.close();
 
 
 
