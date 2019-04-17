@@ -3,11 +3,11 @@ import numpy as np
 import cv2
 
 def find_distance (box_width, box_height):
-    width_ratio = 12; #example ratio of known width to known distance  
-    height_ratio = 12; #example ratio of known height to known distance 
+    width_ratio = float(180*15); #example ratio of known width to known distance  
+    height_ratio = (490*15); #example ratio of known height to known distance 
 
-    calc_width_distance = box_width*width_ratio;#finding distance using the box width 
-    calc_height_distance = box_height*height_ratio;#finding the distance using the box height 
+    calc_width_distance = width_ratio/box_width;#finding distance using the box width 
+    calc_height_distance = height_ratio/box_height;#finding the distance using the box height 
     avg_distance = (calc_width_distance + calc_height_distance)/2;#averaging the two calculated distances 
     return avg_distance; 
 
@@ -18,28 +18,19 @@ def get_bounding_box (file_name_in, file_name_out):
         for line in fin:
             if(line == '\n'):
                 continue;
-            #read width
-            #arr = [0,1,2,3,4,5,6,7,8,9];
             chars = [0]*10;
-            #for item in line.split(",");
             chars = line.split(",",9);
-            #print(chars);
-            print(chars[4]);
-            print(chars[5]);
-
             width = float(chars[4]);
             height = float(chars[5]);
             frame = int(chars[0]);
             id_track = int(chars[1]);
-            scale_factor = 3; # example scale factor for changing pixel height to actual height 
+            scale_factor = 1; # example scale factor for changing pixel height to actual height 
             width *= scale_factor; 
             height *= scale_factor;
-            print(width);
-            print(height);
             distance = find_distance(abs(float(width)),abs(float(height)));
             #writing into file: frame, id, distance
             fout.write("%d,%d,%lf\n" %(frame, id_track,distance));
-            print(distance);
+            #print(distance);
     fin.close();
     fout.close();
 
