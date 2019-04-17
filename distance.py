@@ -2,9 +2,12 @@
 import numpy as np
 import cv2
 
-def find_distance (box_width, box_height):
-    width_ratio = float(180*15); #example ratio of known width to known distance  
-    height_ratio = (490*15); #example ratio of known height to known distance 
+def find_distance (box_width, box_height, first_width, first_height,first_dist):
+    #width_ratio = float(180*15); #example ratio of known width to known distance  
+    #height_ratio = float(490*15); #example ratio of known height to known distance 
+
+    width_ratio = float(first_width*first_dist);
+    height_ratio = float(first_height*first_dist);
 
     calc_width_distance = width_ratio/box_width;#finding distance using the box width 
     calc_height_distance = height_ratio/box_height;#finding the distance using the box height 
@@ -14,6 +17,7 @@ def find_distance (box_width, box_height):
 
 def get_bounding_box (file_name_in, file_name_out):
     fout = open(file_name_out,"w");
+    count = 1;
     with open(file_name_in,"r") as fin:
         for line in fin:
             if(line == '\n'):
@@ -27,9 +31,13 @@ def get_bounding_box (file_name_in, file_name_out):
             scale_factor = 1; # example scale factor for changing pixel height to actual height 
             width *= scale_factor; 
             height *= scale_factor;
-            distance = find_distance(abs(float(width)),abs(float(height)));
+            if(count == 1):
+                first_height = height;
+                first_width = width;
+            distance = find_distance(abs(float(width)),abs(float(height)),abs(float(first_width)), abs(float(first_height)),15);
             #writing into file: frame, id, distance
             fout.write("%d,%d,%lf\n" %(frame, id_track,distance));
+            count = count+1;
             #print(distance);
     fin.close();
     fout.close();
