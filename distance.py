@@ -18,9 +18,13 @@ def find_distance (box_height, first_height,first_dist):
     return avg_distance; 
 
 
-def get_bounding_box (file_name_in, file_name_out): #,calib_file):
+def get_bounding_box (file_name_in, file_name_out, calib_file):
     fout = open(file_name_out,"w");#oepning output file to write in 
-    count = 1; #keepiung count of how many lines have been read 
+    count = 1; #keepiung count of how many lines have been read  
+
+    scale_factor = calib_cam(calib_file);
+
+
     with open(file_name_in,"r") as fin: #reading ground truth file line by line 
         for line in fin:
             if(line == '\n'): #in case of blank lines 
@@ -40,7 +44,7 @@ def get_bounding_box (file_name_in, file_name_out): #,calib_file):
             
             #scale_factor = calib_cam(calib_file);
             
-            scale_factor = 1.25; # example scale factor for changing pixel distance to actual distance 
+            #scale_factor = 1.25; # example scale factor for changing pixel distance to actual distance 
             #width *= scale_factor; 
             #height *= scale_factor;
 
@@ -62,6 +66,7 @@ def get_bounding_box (file_name_in, file_name_out): #,calib_file):
 def calib_cam (filename_in):
     count = 1;
     i = 0;
+    factor = 0;
     with open(filename_in,"r") as calib_file: #reading ground truth file line by line
              for line in calib_file:
                 if(line == '\n'): #in case of blank lines
@@ -73,6 +78,7 @@ def calib_cam (filename_in):
                     distance1 = int(chars[1]);
                     area1 = height1*distance1;
                     count = 2;
+                    i = i+1;
                 else: 
                     chars = line.split(",",2); #reading the file lines per number
                     height2 = float(chars[0]);
@@ -80,6 +86,7 @@ def calib_cam (filename_in):
                     calc_dist = height1*distance1/height2;
                     factor = factor + (distance2/calc_dist);
                     count = 1;
+                    i = i+1;
 
     factor = factor / i; #taking an average of the factors 
     calib_file.close();
