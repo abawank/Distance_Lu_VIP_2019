@@ -41,9 +41,6 @@ def get_bounding_box (file_name_in, file_name_out, calib_file):
             # paramters and relation between them will give scale factor 
             #scale factor will vary for every scenario and every camera 
             
-            
-            #scale_factor = calib_cam(calib_file);
-            
             #scale_factor = 1.25; # example scale factor for changing pixel distance to actual distance 
             #width *= scale_factor; 
             #height *= scale_factor;
